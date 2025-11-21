@@ -1,7 +1,9 @@
 import type { Route } from ".react-router/types/app/+types/root";
 import { Form, Link, useActionData } from "react-router";
 import { API_MARCA_URL, IMAGES_URL } from "shared/config";
-
+// import compressAccurately  from "image-conversion";
+// import pkg from 'image-conversion';
+// const {compressAccurately} = pkg;
 
 export async function clientLoader() {
   const result = await fetch(API_MARCA_URL);
@@ -9,27 +11,52 @@ export async function clientLoader() {
   return marcas;
 }
 
-// export async function clientAction({
-//   request,
-// }: Route.ClientActionArgs) {
-//   let formData = await request.formData();
-//   let title = formData.get("title");
-//   console.log(formData)
-//   let result = await fetch(API_MARCA_URL, {
-//         method: 'POST',
-//         body: formData,
-//     })
-//   console.log("clientAction result:", result.json);  
-//   return {} 
-//   // project;
-// }
+
+
+export async function action({ request}: Route.ClientActionArgs) {
+  let formData = await request.formData();
+  // let title = formData.get("title");
+  console.log(formData)
+
+  let originalFoto = formData.get("foto") as File;
+  console.log("rrv7 action originalFoto:", originalFoto.name, originalFoto.size, originalFoto.type);
+  // let webpFile = await compressAccurately(originalFoto, {
+  //   size: 100 * 1024,
+  //   type: "image/webp",
+  //   quality: 0.8,
+  // });
+  // console.log("rrv7 action webpFile:", webpFile.size, webpFile.type);
+  // formData.set("foto", webpFile, originalFoto.name.split(".")[0] + ".webp");
+
+  let result = await fetch(API_MARCA_URL, {
+        method: 'POST',
+        body: formData,
+    })
+  console.log("rrv7 action result:", result.json);  
+  return {} 
+  // project;
+}
+
+
+const deleteMarca = async (pk:number) => {
+  try {
+    const response = await fetch(API_MARCA_URL + pk, {
+      method: "DELETE",
+    });
+    console.log("Delete marca response:", response);
+    // setBooks((prev) => prev.filter((book) => book.id !== pk));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 export default function marcaPage({loaderData}: any) {
   const data = useActionData();
   console.log("marcaPage actionData:", data);
   const marcas = loaderData;
-  // marcas.sort((a,b)=> b.id - a.id);
-  console.log("marcaPage loaderData:", marcas);
+  marcas.sort((a,b)=> b.id - a.id);
+  // console.log("marcaPage loaderData:", marcas);
 
   // const content = marcas.map(m => 
   // //       <div key={marca.id} className="w-[500px] max-w-[100vw] p-4 border-t">
@@ -46,6 +73,7 @@ export default function marcaPage({loaderData}: any) {
             <h1><Link to="/">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
             <br></br>
             <hr></hr>
+            Сделать сначала крад операции потом вебп
             <br></br>
             {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  */}
             <div className="container">
@@ -54,7 +82,7 @@ export default function marcaPage({loaderData}: any) {
                 className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
                 encType="multipart/form-data" 
                 aria-label="Форма загрузки"
-                action = {API_MARCA_URL}
+                // action = "/api/v1/marca"
                 method="post"
                 // onSubmit={()=>event.preventDefault()}
                 >
@@ -117,11 +145,23 @@ export default function marcaPage({loaderData}: any) {
         </header>
             <ul>
     {marcas.map((m: any) => (
+      // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20
       <li key={m.id} className="w-[500px] max-w-[100vw] p-4 border-t">
         <h2>Marca ID: {m.id}, name: {m.name}, slug: {m.slug}, foto: {m.foto}</h2>
-        <img src={IMAGES_URL + m.foto} alt="image loading error"></img> 🗑️
+        <img src={IMAGES_URL + m.foto} alt="image loading error"></img> 
         {IMAGES_URL + m.foto}
-
+        <div className="flex items-center justify-between gap-4">
+          <button type="button"
+            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            onClick={() => updateTitle(book.id, book.release_year)}>
+            📝 Edit 
+          </button>
+          <button type="button" 
+            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            onClick={() => deleteMarca(m.id)}>🗑️ Delete
+          </button>
+        </div>
+        
       </li>
     ))
     }
