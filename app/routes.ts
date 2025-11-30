@@ -1,6 +1,8 @@
 import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
-export default [index("routes/home.tsx"),
+export default [
+    // index("routes/home.tsx"),
+    index("../pages/loginPage/loginPage.tsx"),
     route("about", "routes/about.tsx"),
     route("marca", "../pages/marcaPage/marcaPage.tsx"),
     route("fortesting", "routes/fortesting.tsx"),
