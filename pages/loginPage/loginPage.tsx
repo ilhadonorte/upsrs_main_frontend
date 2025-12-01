@@ -41,7 +41,11 @@ export async function clientAction({request}:Route.ClientActionArgs) {
   
   } catch (error) {
     console.error("loginPage action error:", error);
-    //отработать ситуацик когда сервер недоступен 2025-11-29
+    //отработать ситуацик когда сервер недоступен 2025-11-29+
+    if(!error?.response) {console.log("Server not responding?")}
+    else if (error.response?.status === 400) {console.log("wrong username or password")}
+    else if (error.response?.status === 401) {console.log("is not autorized")}
+    else {console.log("Login failed")}
   }
 
 }

@@ -26,19 +26,27 @@ type Pages = {
   "/loginPage": {
     params: {};
   };
+  "/counterpage": {
+    params: {};
+  };
+  "/*": {
+    params: {
+      "*": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/about" | "/marca" | "/fortesting" | "/loginPage";
+    page: "/" | "/about" | "/marca" | "/fortesting" | "/loginPage" | "/counterpage" | "/*";
   };
   "../pages/loginPage/loginPage.tsx": {
     id: "../pages/loginPage/loginPage";
     page: "/";
   };
-  "routes/about.tsx": {
-    id: "routes/about";
+  "../pages/aboutPage/aboutPage.tsx": {
+    id: "../pages/aboutPage/aboutPage";
     page: "/about";
   };
   "../pages/marcaPage/marcaPage.tsx": {
@@ -53,13 +61,23 @@ type RouteFiles = {
     id: "routes/loginPage";
     page: "/loginPage";
   };
+  "../pages/counterPage/counterPage.tsx": {
+    id: "../pages/counterPage/counterPage";
+    page: "/counterpage";
+  };
+  "../pages/catchAllPage/catchAllPage.tsx": {
+    id: "../pages/catchAllPage/catchAllPage";
+    page: "/*";
+  };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "../pages/loginPage/loginPage": unknown;
-  "routes/about": typeof import("./app/routes/about.tsx");
+  "../pages/aboutPage/aboutPage": unknown;
   "../pages/marcaPage/marcaPage": unknown;
   "routes/fortesting": typeof import("./app/routes/fortesting.tsx");
   "routes/loginPage": typeof import("./app/routes/loginPage.tsx");
+  "../pages/counterPage/counterPage": unknown;
+  "../pages/catchAllPage/catchAllPage": unknown;
 };
