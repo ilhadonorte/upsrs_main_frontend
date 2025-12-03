@@ -1,6 +1,6 @@
 import type { Route } from ".react-router/types/app/+types/root";
 import { useEffect, useRef, useState } from "react";
-import { Form, Link, redirect, useActionData, useNavigate } from "react-router";
+import { Form, Link, Navigate, redirect, useActionData, useNavigate } from "react-router";
 import { API_LOGIN_URL } from "shared/config";
 
 
@@ -37,7 +37,8 @@ export async function clientAction({request}:Route.ClientActionArgs) {
 
     const tokens =  await result.json()
     console.log("loginPage action tokens:", tokens);
-    return tokens
+    return redirect("/agent")
+    // return tokens
   
   } catch (error) {
     console.error("loginPage action error:", error);

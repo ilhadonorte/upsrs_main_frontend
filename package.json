@@ -12,6 +12,7 @@
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "@reduxjs/toolkit": "^2.11.0",
+    "dayjs": "^1.11.19",
     "image-conversion": "^2.1.1",
     "isbot": "^5.1.31",
     "openmeteo": "^1.2.3",

@@ -14,12 +14,6 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/about": {
-    params: {};
-  };
-  "/marca": {
-    params: {};
-  };
   "/fortesting": {
     params: {};
   };
@@ -27,6 +21,15 @@ type Pages = {
     params: {};
   };
   "/counterpage": {
+    params: {};
+  };
+  "/agent": {
+    params: {};
+  };
+  "/agent/marca": {
+    params: {};
+  };
+  "/agent/about": {
     params: {};
   };
   "/*": {
@@ -39,19 +42,11 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/about" | "/marca" | "/fortesting" | "/loginPage" | "/counterpage" | "/*";
+    page: "/" | "/fortesting" | "/loginPage" | "/counterpage" | "/agent" | "/agent/marca" | "/agent/about" | "/*";
   };
   "../pages/loginPage/loginPage.tsx": {
     id: "../pages/loginPage/loginPage";
     page: "/";
-  };
-  "../pages/aboutPage/aboutPage.tsx": {
-    id: "../pages/aboutPage/aboutPage";
-    page: "/about";
-  };
-  "../pages/marcaPage/marcaPage.tsx": {
-    id: "../pages/marcaPage/marcaPage";
-    page: "/marca";
   };
   "routes/fortesting.tsx": {
     id: "routes/fortesting";
@@ -65,6 +60,22 @@ type RouteFiles = {
     id: "../pages/counterPage/counterPage";
     page: "/counterpage";
   };
+  "../pages/agentPage/agentPage.tsx": {
+    id: "../pages/agentPage/agentPage";
+    page: "/agent" | "/agent/marca" | "/agent/about";
+  };
+  "../pages/shopsPage/shopsPage.tsx": {
+    id: "../pages/shopsPage/shopsPage";
+    page: "/agent";
+  };
+  "../pages/marcaPage/marcaPage.tsx": {
+    id: "../pages/marcaPage/marcaPage";
+    page: "/agent/marca";
+  };
+  "../pages/aboutPage/aboutPage.tsx": {
+    id: "../pages/aboutPage/aboutPage";
+    page: "/agent/about";
+  };
   "../pages/catchAllPage/catchAllPage.tsx": {
     id: "../pages/catchAllPage/catchAllPage";
     page: "/*";
@@ -74,10 +85,12 @@ type RouteFiles = {
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "../pages/loginPage/loginPage": unknown;
-  "../pages/aboutPage/aboutPage": unknown;
-  "../pages/marcaPage/marcaPage": unknown;
   "routes/fortesting": typeof import("./app/routes/fortesting.tsx");
   "routes/loginPage": typeof import("./app/routes/loginPage.tsx");
   "../pages/counterPage/counterPage": unknown;
+  "../pages/agentPage/agentPage": unknown;
+  "../pages/shopsPage/shopsPage": unknown;
+  "../pages/marcaPage/marcaPage": unknown;
+  "../pages/aboutPage/aboutPage": unknown;
   "../pages/catchAllPage/catchAllPage": unknown;
 };

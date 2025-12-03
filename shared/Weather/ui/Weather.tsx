@@ -15,12 +15,16 @@ export function WeatherVidget()
         <>
             <a href="https://open-meteo.com/en/docs?latitude=68.7817&longitude=32.7508">
                 WeatherVidget data:
-            </a> <hr></hr>
+            </a> 
+            <hr></hr>
+            <ul>
             {
                 cidades.map((cidade) => 
-                <p key={cidade.name} >В <a href={cidade.link} target="blank">{cidade.name}</a> сейчас {cidade.temperatura}°C</p>
+                <p key={cidade.name} >В <a href={cidade.link} target="blank">{cidade.name}</a>: {cidade.temperatura}°C</p>
                 )
-            }
+            }                    
+            </ul>
+
 
         </>
     )

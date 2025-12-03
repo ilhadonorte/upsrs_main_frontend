@@ -70,7 +70,7 @@ export default function marcaPage({loaderData}: any) {
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4">
-            <h1><Link to="/">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
+            <h1><Link to="/agent">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
             <br></br>
             <hr></hr>
             Сделать сначала крад операции потом вебп
@@ -166,7 +166,7 @@ export default function marcaPage({loaderData}: any) {
     ))
     }
     </ul>
-
+<h1><Link to="/agent">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
       </div>
     
     </main>

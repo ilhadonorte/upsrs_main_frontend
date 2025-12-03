@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import  logo from "/favicon2.ico"
 export function Header() {
   const [open, setOpen] = useState(false);
 
@@ -7,7 +7,7 @@ export function Header() {
     <header className="w-full  border-b">
       <div className="max-w-7xl bg-gray-400 mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Логотип" className="h-8 w-auto" />
+          <img src={logo} alt="Логотип" className="h-8 w-auto" />
         </div>
 
         <button
@@ -22,17 +22,21 @@ export function Header() {
         </button>
 
         <nav className={`md:flex items-center space-x-6 ${open ? 'block' : 'hidden'}`} aria-label="Основная навигация">
-          <a href="#home" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
-            Главная
+          <a href="/agent" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+            Lojas
+          </a>          <a href="/agent/marca" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+            Marcas
           </a>
           <a href="#services" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
-            Услуги
+            Carros
           </a>
           <a href="#portfolio" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
-            Портфолио
+            Ant
           </a>
-          <a href="#contact" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
-            Контакты
+          <a href="/agent/about" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+            About
+          </a>          <a href="/" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+            Sair
           </a>
         </nav>
       </div>
