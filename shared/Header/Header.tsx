@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import  logo from "/favicon2.ico"
+import sair from "public/application-exit-symbolic.svg"
 export function Header() {
   const [open, setOpen] = useState(false);
+
+
+
+// import React from 'react';
+
+// function LinkWithIcon() {
+//   return (
+//     <a href="https://example.com" target="_blank" rel="noopener noreferrer" className="link-with-icon">
+//       Ссылка с текстом
+//       <span aria-hidden="true" style={{ marginLeft: 8, display: 'inline-block' }}>
+//         <img src="/path/to/icon.png" alt="" style={{ width: 16, height: 16 }} />
+//       </span>
+//     </a>
+//   );
+// } переделать на вызов подобным родом с массивом параметров линкс пропс чтобы уменьшить код 2025-12-04
+
+// export default LinkWithIcon;
+
 
   return (
     <header className="w-full  border-b">
@@ -30,13 +49,21 @@ export function Header() {
           <a href="#services" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
             Carros
           </a>
-          <a href="#portfolio" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+          <a href="/agent/redux" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+            Redux
+          </a>          
+          <a href="/agent/ant" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
             Ant
           </a>
           <a href="/agent/about" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
             About
-          </a>          <a href="/" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
-            Sair
+          </a>          
+          <a href="/" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+          <span aria-hidden="true" style={{ marginLeft: 8, display: 'inline-block' }}>
+            Sair <img src={sair}></img>
+          </span>
+          
+            
           </a>
         </nav>
       </div>

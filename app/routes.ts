@@ -5,14 +5,16 @@ export default [
     index("../pages/loginPage/loginPage.tsx"),
     
     // route("marca", "../pages/marcaPage/marcaPage.tsx"),
-    route("fortesting", "routes/fortesting.tsx"),
+    
     route("loginPage", "routes/loginPage.tsx"),
-    route("counterpage", "../pages/counterPage/counterPage.tsx"),
+    
 
     route("agent", "../pages/agentPage/agentPage.tsx", [
         index("../pages/shopsPage/shopsPage.tsx"),
         route("marca", "../pages/marcaPage/marcaPage.tsx"),
         route("about", "../pages/aboutPage/aboutPage.tsx"),
+        route("redux", "../pages/counterPage/counterPage.tsx"),
+        route("ant", "routes/fortesting.tsx"),
     ]),
     
     // ...prefix("agent", [

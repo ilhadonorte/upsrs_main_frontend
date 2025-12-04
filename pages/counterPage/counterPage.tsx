@@ -6,10 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 
 import type { RootState } from 'app/store'
 
+import { MovieList } from "./movieList";
+import {MovieInput} from "./MovieInput"
 
-
-import { increment, decrement, incrementByAmount, reset } from "feeatures/counterSlice";
+import { increment, decrement, incrementByAmount, reset } from "features/counterSlice";
 import { Link } from "react-router";
+import SubmitButton from "../../shared/submitButton"
 
 const CounterPage: React.FC = () =>{
     const count = useSelector((state:RootState) => state.counter.value);
@@ -38,6 +40,10 @@ const CounterPage: React.FC = () =>{
             </div>
 
         </div>
+        <SubmitButton>Хуйнуть</SubmitButton>
+        <MovieInput></MovieInput>
+        <MovieList></MovieList>
+
         </>
     );
 }

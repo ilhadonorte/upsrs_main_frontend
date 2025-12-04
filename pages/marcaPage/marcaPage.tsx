@@ -1,4 +1,5 @@
 import type { Route } from ".react-router/types/app/+types/root";
+// import { title } from "process";
 import { Form, Link, useActionData } from "react-router";
 import { API_MARCA_URL, IMAGES_URL } from "shared/config";
 // import compressAccurately  from "image-conversion";
@@ -11,7 +12,11 @@ export async function clientLoader() {
   return marcas;
 }
 
-
+// export function meta({}:Route.MetaArgs){
+//   return [
+//     {title: "marcas crud operation"},
+//   ]
+// } починить почему не выдает заголовок 2025-12-04
 
 export async function action({ request}: Route.ClientActionArgs) {
   let formData = await request.formData();
