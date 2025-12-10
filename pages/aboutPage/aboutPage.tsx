@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import Dayjs from "dayjs"
 
 import { WeatherVidget } from "shared/Weather";
+import Links from "./Links"
 
 export default function About() {
     const birthday = new Dayjs("1981-07-06")
@@ -56,11 +57,13 @@ export default function About() {
           <div className="w-[500px] max-w-[100vw] p-2">
             <h1>About Page</h1>
             <Link to="/agent">◀ Back</Link> <br></br>
-            <hr></hr>
+            
+            <hr/>
 
 
           </div>
         </header>
+<Links></Links>
               {/* BD: {birthday.toDateString()} <br></br> */}
           {/* BD: {birthday.toLocaleDateString('ru-Ru')} <br></br> */}
           <ul>

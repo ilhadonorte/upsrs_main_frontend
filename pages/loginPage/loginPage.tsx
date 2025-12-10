@@ -2,9 +2,14 @@ import type { Route } from ".react-router/types/app/+types/root";
 import { useEffect, useRef, useState } from "react";
 import { Form, Link, Navigate, redirect, useActionData, useNavigate } from "react-router";
 import { API_LOGIN_URL } from "shared/config";
+import * as jose from "jose"
+import { useDispatch } from "react-redux";
+import {login, logout} from "../../features/authSlice"
+import { store } from "~/store";
 
 
 export async function clientAction({request}:Route.ClientActionArgs) {
+  
   // Здесь вы бы обрабатывали данные формы и делали fetch к вашему API
   let formData = await request.formData();
   // formData.forEach((value, key) => {console.log(`${key}: ${value}`)});
@@ -23,9 +28,9 @@ export async function clientAction({request}:Route.ClientActionArgs) {
         body: JSON.stringify(credentials),
         // credentials: 'include', // Include cookies for cross-origin requests
     })
-    // console.log("result from server: ", result)
+    console.log("result from server: ", result)
     if(!result) {
-      console.log("loginPage action no response from server"); 
+      console.log("loginPage action: no response from server"); 
       throw new Error("No response from server");
     }
 
@@ -37,6 +42,9 @@ export async function clientAction({request}:Route.ClientActionArgs) {
 
     const tokens =  await result.json()
     console.log("loginPage action tokens:", tokens);
+    const claims = jose.decodeJwt(tokens.access)
+    console.log(claims)
+    // store.dispatch(login({isLoggedIn:true, username:claims.sub}))
     return redirect("/agent")
     // return tokens
   
@@ -53,11 +61,11 @@ export async function clientAction({request}:Route.ClientActionArgs) {
 
 
 
-// async function submitManual(e: React.FormEvent<HTMLFormElement>) {
+// async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 //   e.preventDefault();
 //   const form = e.target;
 //   const formData = new FormData();
-//   // formData.append('email', form.email.value);
+//   formData.append('username', form);
 
 //   const resp = await fetch(API_LOGIN_URL, {
 //     method: 'POST',
@@ -77,7 +85,8 @@ export default function LoginPage() {
   const errRef = useRef<HTMLParagraphElement>(null);
   const actionData = useActionData();
   const usernameRef = useRef<HTMLInputElement>(null)
-  
+  // const dispatch = useDispatch()
+
   useEffect(() => {
     if (usernameRef.current) {
       usernameRef.current.focus();
@@ -107,9 +116,9 @@ export default function LoginPage() {
       <Form 
         id="loginForm" 
         className="space-y-4" 
-        method="post"
+        // method="post"
         // onSubmit={submitManual}
-        // action = "/api/v1/user/login"
+        // action = "127.0.0.1:3000/api/v1/user/login"
         noValidate>
       {/* <!-- Email --> */}
       <div>
@@ -156,6 +165,7 @@ export default function LoginPage() {
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        // onClick={()=>handleSubmit}
       >
         Войти
       </button>

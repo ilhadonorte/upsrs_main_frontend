@@ -40,7 +40,7 @@ const CounterPage: React.FC = () =>{
             </div>
 
         </div>
-        <SubmitButton>Хуйнуть</SubmitButton>
+        <SubmitButton>Good button</SubmitButton>
         <MovieInput></MovieInput>
         <MovieList></MovieList>
 

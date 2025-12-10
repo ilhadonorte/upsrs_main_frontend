@@ -19,7 +19,7 @@ const handleRemoveMovie = (id:number) =>{
                     <li key={movie.id}>{movie.name} 
                     <button
                     onClick={()=>handleRemoveMovie(movie.id)}
-                    >  delete ✖️❌</button></li>
+                    >  delete ✖️</button></li>
                 ))}
             </ol>
         </div>

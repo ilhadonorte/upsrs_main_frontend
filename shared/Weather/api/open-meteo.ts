@@ -62,13 +62,13 @@ for (const response of responses) {
     
     const elevation = response.elevation();
     const utcOffsetSeconds = response.utcOffsetSeconds();
-    console.log(response)
-    console.log(
-        `Из api.open-meteo.com пришли следующие данные на обработку:`,
-        `\nCoordinates: latitude: ${latitude}°N, longitude: ${longitude}°E`,
-        `\nElevation: ${elevation}m asl`,
-        `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
-    );
+    // console.log(response)
+    // console.log(
+    //     `Из api.open-meteo.com пришли следующие данные на обработку:`,
+    //     `\nCoordinates: latitude: ${latitude}°N, longitude: ${longitude}°E`,
+    //     `\nElevation: ${elevation}m asl`,
+    //     `\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
+    // );
     
     const hourly = response.hourly()!;
     

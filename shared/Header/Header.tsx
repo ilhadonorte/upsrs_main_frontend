@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import  logo from "/favicon2.ico"
 import sair from "public/application-exit-symbolic.svg"
+
+import { useSelector } from 'react-redux';
+
 export function Header() {
   const [open, setOpen] = useState(false);
-
+  const userName = useSelector((state: any) => state.user.username)
 
 
 // import React from 'react';
@@ -59,8 +62,12 @@ export function Header() {
             About
           </a>          
           <a href="/" className="block md:inline-block px-2 py-2 text-gray-700 hover:text-gray-900" onClick={() => setOpen(false)}>
+
+          bem-vindo
+          {userName} 
+
           <span aria-hidden="true" style={{ marginLeft: 8, display: 'inline-block' }}>
-            Sair <img src={sair}></img>
+            Switch Theme Sair <img src={sair}></img>
           </span>
           
             

@@ -1,7 +1,17 @@
 import type { Route } from ".react-router/types/app/+types/root";
+import type Marca from "../../src/shared/types/IMarca"
 // import { title } from "process";
 import { Form, Link, useActionData } from "react-router";
+
+import { useSelector } from "react-redux";
+import { setallmarcas, selectAllMarcas, getMarcasStatus, getMarcasError, fetchAllMarcas } from "src/redux/marcaSlice";
+import { useAppSelector, useAppDispatch } from "src/redux/hooks"
+
+
 import { API_MARCA_URL, IMAGES_URL } from "shared/config";
+import  ImageWithFallback  from "../../src/shared/components/ImageWithFallback";
+
+import { useEffect } from "react";
 // import compressAccurately  from "image-conversion";
 // import pkg from 'image-conversion';
 // const {compressAccurately} = pkg;
@@ -9,6 +19,7 @@ import { API_MARCA_URL, IMAGES_URL } from "shared/config";
 export async function clientLoader() {
   const result = await fetch(API_MARCA_URL);
   const marcas = await result.json();
+  // обработать ситуацию когда сервер недоступен надо чтобы вернуло сообщение об ошибке 2025-12-05
   return marcas;
 }
 
@@ -43,7 +54,8 @@ export async function action({ request}: Route.ClientActionArgs) {
 }
 
 
-const deleteMarca = async (pk:number) => {
+const deleteMarca = async (pk: number | undefined) => {
+  if (pk === undefined) return;
   try {
     const response = await fetch(API_MARCA_URL + pk, {
       method: "DELETE",
@@ -58,10 +70,30 @@ const deleteMarca = async (pk:number) => {
 
 export default function marcaPage({loaderData}: any) {
   const data = useActionData();
+  const dispatch = useAppDispatch();
+  
   console.log("marcaPage actionData:", data);
-  const marcas = loaderData;
-  marcas.sort((a,b)=> b.id - a.id);
-  // console.log("marcaPage loaderData:", marcas);
+  const marcas:Marca[] = loaderData;
+  // marcas.sort((a,b)=> b.id - a.id);
+  // console.log("marcaPage sorted loaderData:", marcas);
+  // dispatch(getallmarcas(marcas));
+
+  const allMarcas = useSelector(selectAllMarcas)
+  const marcasStatus = useSelector(getMarcasStatus)
+  const marcasError = useSelector(getMarcasError)
+
+  useEffect(() => {
+    if (marcasStatus === "idle") {
+      console.log("thunk is starting in useEffect hook...")
+      dispatch(fetchAllMarcas());
+      console.log("thunk is done in useEffect hook...")
+    
+  }}, [marcasStatus, dispatch])
+  // const handleEdit = () =>{
+    // const allMarcas = useAppSelector(state => state.marcasReducer)
+    // console.log("all marcas from redux: ", allMarcas)
+  // }
+  
 
   // const content = marcas.map(m => 
   // //       <div key={marca.id} className="w-[500px] max-w-[100vw] p-4 border-t">
@@ -70,8 +102,71 @@ export default function marcaPage({loaderData}: any) {
   // //       </div>
   //     )
 
+  let contentFromApi = marcas.map((m: Marca) => (
+        // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20 +2025-12-05
+          <li key={m.id} className="w-[500px] max-w-[100vw] p-4 border-t">
+            <h2>{m.name}</h2>
+
+            <img src={IMAGES_URL + m.foto} height={"50px"} width={"50px"} alt="image loading error"></img> 
+
+            Marca ID: {m.id}, name: {m.name}, slug: {m.slug}, foto: {m.foto}
+            {IMAGES_URL + m.foto}
+
+            <div className="flex items-center justify-between gap-4">
+
+              <button type="button"
+                className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                // onClick={handleEdit()}
+                >
+                📝 Edit 
+              </button>
+
+              <button type="button" 
+                className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                onClick={() => deleteMarca(m.id)}>🗑️ Delete
+              </button>
+
+            </div>
+          </li>
+        ))
+
+  let contentFromRedux = allMarcas.map((m: Marca) => (
+    // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20 +2025-12-05
+      <li key={m.id} className="w-[500px] max-w-[100vw] p-4 border-t">
+        <h2>{m.name}</h2>
+
+        {/* <img src={IMAGES_URL + m.foto} height={"50px"} width={"50px"} alt="image loading error"></img>  */}
+        <ImageWithFallback
+        src = {IMAGES_URL + m.foto}
+        alt = {m.name}
+        height={"50px"}
+        width={"50px"}
+        ></ImageWithFallback>
+        
+        Marca ID: {m.id}, name: {m.name}, slug: {m.slug}, foto: {m.foto}
+        {IMAGES_URL + m.foto}
+
+        <div className="flex items-center justify-between gap-4">
+
+          <button type="button"
+            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            // onClick={handleEdit()}
+            >
+            📝 Edit 
+          </button>
+
+          <button type="button" 
+            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            onClick={() => deleteMarca(m.id)}>🗑️ Delete
+          </button>
+
+        </div>
+      </li>
+    ))
+
+
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
+    <main className="flex items-center justify-center pt-8 pb-2">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4">
@@ -148,29 +243,67 @@ export default function marcaPage({loaderData}: any) {
 
           </div>
         </header>
-            <ul>
-    {marcas.map((m: any) => (
-      // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20
-      <li key={m.id} className="w-[500px] max-w-[100vw] p-4 border-t">
-        <h2>Marca ID: {m.id}, name: {m.name}, slug: {m.slug}, foto: {m.foto}</h2>
-        <img src={IMAGES_URL + m.foto} alt="image loading error"></img> 
-        {IMAGES_URL + m.foto}
-        <div className="flex items-center justify-between gap-4">
-          <button type="button"
-            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-            onClick={() => updateTitle(book.id, book.release_year)}>
-            📝 Edit 
-          </button>
-          <button type="button" 
-            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-            onClick={() => deleteMarca(m.id)}>🗑️ Delete
-          </button>
+
+
+    <div className="flex gap-4 p-4">
+
+      <div className="flex-1 bg-blue-200 p-4">
+        <h2 className="text-lg font-bold">Колонка 1</h2>
+        <p>Содержимое первой колонки.</p>
+              { marcas.length >0 ?( 
+        <ul>Список марок взятый напрямую из API: { contentFromApi } </ul>
+        )
+        :
+        <div style={{
+          fontSize:"2rem", 
+          marginTop:5, 
+          color:"red",
+          border:"1px solid black",
+          padding:"10px"
+          }}>
+          Marcas list not found or connection error
         </div>
-        
-      </li>
-    ))
-    }
-    </ul>
+
+      }
+      </div>
+
+      <div className="flex-1 bg-green-200 p-4">
+        <h2 className="text-lg font-bold">Колонка 2</h2>
+        <p>Содержимое второй колонки.</p>
+              { allMarcas.length >0 ?( 
+        <ul>Список марок взятый из Redux: { contentFromRedux } </ul>
+        )
+        :
+        <div style={{
+          fontSize:"2rem", 
+          marginTop:5, 
+          color:"red",
+          border:"1px solid black",
+          padding:"10px"
+          }}>
+          Marcas list not found or connection error
+        </div>
+
+      }
+      </div>
+
+    </div>
+
+
+<div className="grid grid-cols-2 gap-4 p-4">
+  <div className="bg-blue-200 p-4">
+    <h2 className="text-lg font-bold">Колонка 1</h2>
+    <p>Содержимое первой колонки.</p>
+  </div>
+  <div className="bg-green-200 p-4">
+    <h2 className="text-lg font-bold">Колонка 2</h2>
+    <p>Содержимое второй колонки.</p>
+  </div>
+</div>
+
+
+
+
 <h1><Link to="/agent">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
       </div>
     

@@ -5,7 +5,9 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
     movies: [
         { id: 1, name: "Interstellar"},
-        { id: 2, name: "Уничтожение путиным россии"}
+        { id: 2, name: "Уничтожение путиным россии"},
+        { id: 3, name: "Уничтожение путиным россии-II"},
+        { id: 4, name: "Уничтожение путиным россии-III"},
     ] 
     
 }
