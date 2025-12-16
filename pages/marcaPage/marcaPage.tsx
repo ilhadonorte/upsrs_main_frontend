@@ -4,7 +4,7 @@ import type Marca from "../../src/shared/types/IMarca"
 import { Form, Link, useActionData } from "react-router";
 
 import { useSelector } from "react-redux";
-import { setallmarcas, selectAllMarcas, getMarcasStatus, getMarcasError, fetchAllMarcas } from "src/redux/marcaSlice";
+import { setallmarcas, selectAllMarcas, getMarcasStatus, getMarcasError, fetchAllMarcas, deleteMarcaById } from "src/redux/marcaSlice";
 import { useAppSelector, useAppDispatch } from "src/redux/hooks"
 
 
@@ -78,15 +78,15 @@ export default function marcaPage({loaderData}: any) {
   // console.log("marcaPage sorted loaderData:", marcas);
   // dispatch(getallmarcas(marcas));
 
-  const allMarcas = useSelector(selectAllMarcas)
-  const marcasStatus = useSelector(getMarcasStatus)
-  const marcasError = useSelector(getMarcasError)
+  const allMarcas = useAppSelector(selectAllMarcas)
+  const marcasStatus = useAppSelector(getMarcasStatus)
+  const marcasError = useAppSelector(getMarcasError)
 
   useEffect(() => {
     if (marcasStatus === "idle") {
-      console.log("thunk is starting in useEffect hook...")
+      // console.log("thunk is starting in useEffect hook...")
       dispatch(fetchAllMarcas());
-      console.log("thunk is done in useEffect hook...")
+      // console.log("thunk is done in useEffect hook...")
     
   }}, [marcasStatus, dispatch])
   // const handleEdit = () =>{
@@ -157,7 +157,7 @@ export default function marcaPage({loaderData}: any) {
 
           <button type="button" 
             className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-            onClick={() => deleteMarca(m.id)}>🗑️ Delete
+            onClick={() => m.id !== undefined && dispatch(deleteMarcaById(Number(m.id)))}>🗑️ Delete
           </button>
 
         </div>
@@ -173,7 +173,7 @@ export default function marcaPage({loaderData}: any) {
             <h1><Link to="/agent">◀ Back</Link> ׀ Сar marcas page ({marcas.length} found)</h1>
             <br></br>
             <hr></hr>
-            Сделать сначала крад операции потом вебп
+            {/* Сделать сначала крад операции потом вебп */}
             <br></br>
             {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  */}
             <div className="container">
@@ -244,14 +244,14 @@ export default function marcaPage({loaderData}: any) {
           </div>
         </header>
 
-
+{marcasError && <div className="error">Error: {marcasError}</div>}
     <div className="flex gap-4 p-4">
 
       <div className="flex-1 bg-blue-200 p-4">
         <h2 className="text-lg font-bold">Колонка 1</h2>
         <p>Содержимое первой колонки.</p>
               { marcas.length >0 ?( 
-        <ul>Список марок взятый напрямую из API: { contentFromApi } </ul>
+        <ul>Список марок взятый напрямую из API ({marcas.length}): { contentFromApi } </ul>
         )
         :
         <div style={{
@@ -271,7 +271,7 @@ export default function marcaPage({loaderData}: any) {
         <h2 className="text-lg font-bold">Колонка 2</h2>
         <p>Содержимое второй колонки.</p>
               { allMarcas.length >0 ?( 
-        <ul>Список марок взятый из Redux: { contentFromRedux } </ul>
+        <ul>Список марок взятый из Redux ({allMarcas.length}): { contentFromRedux } </ul>
         )
         :
         <div style={{
