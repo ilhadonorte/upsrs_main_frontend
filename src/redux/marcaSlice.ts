@@ -5,7 +5,7 @@ import type { RootState } from "../../app/store";
 
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import {API_MARCA_URL} from 'shared/config'
+import {API_MARCA_URL} from 'src/shared/config'
 import type { GetThunkAPI } from "@reduxjs/toolkit";
 import type { M } from "node_modules/react-router/dist/development/router-CAvh_Drx.mjs";
 

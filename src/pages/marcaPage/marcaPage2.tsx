@@ -1,5 +1,5 @@
 import type { Route } from ".react-router/types/app/+types/root";
-import type Marca from "../../src/shared/types/IMarca"
+import type Marca from "../../shared/types/IMarca"
 // import { title } from "process";
 import { Form, Link, useActionData } from "react-router";
 
@@ -8,8 +8,10 @@ import { setallmarcas, selectAllMarcas, getMarcasStatus, getMarcasError, fetchAl
 import { useAppSelector, useAppDispatch } from "src/redux/hooks"
 
 
-import { API_MARCA_URL, IMAGES_URL } from "shared/config";
-import  ImageWithFallback  from "../../src/shared/components/ImageWithFallback";
+import { API_MARCA_URL, IMAGES_URL } from "src/shared/config";
+import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
+
+import { useGetMarcasQuery, useAddNewMarcaMutation } from "src/redux/service";
 
 import { useEffect } from "react";
 // import compressAccurately  from "image-conversion";
@@ -71,7 +73,9 @@ const deleteMarca = async (pk: number | undefined) => {
 export default function marcaPage({loaderData}: any) {
   const data = useActionData();
   const dispatch = useAppDispatch();
-  
+  const rtkData = useGetMarcasQuery({refetchOnMountOrArgChange: 15});
+  console.log("marcaPage rtkData:", rtkData);
+    
   console.log("marcaPage actionData:", data);
   const marcas:Marca[] = loaderData;
   // marcas.sort((a,b)=> b.id - a.id);
@@ -133,19 +137,25 @@ export default function marcaPage({loaderData}: any) {
   let contentFromRedux = allMarcas.map((m: Marca) => (
     // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20 +2025-12-05
       <li key={m.id} className="w-[500px] max-w-[100vw] p-4 border-t">
-        <h2>{m.name}</h2>
+        <div className="flex">
+          
+          {/* <img src={IMAGES_URL + m.foto} height={"50px"} width={"50px"} alt="image loading error"></img>  */}
+          <ImageWithFallback
+            src = {IMAGES_URL + m.foto}
+            alt = {m.name}
+            height={"100px"}
+            width={"100px"}
+          ></ImageWithFallback>
 
-        {/* <img src={IMAGES_URL + m.foto} height={"50px"} width={"50px"} alt="image loading error"></img>  */}
-        <ImageWithFallback
-        src = {IMAGES_URL + m.foto}
-        alt = {m.name}
-        height={"50px"}
-        width={"50px"}
-        ></ImageWithFallback>
+          <div className="flex-1 break-words whitespace-normal">
+            <h2>{m.name}</h2>
+            Marca ID: {m.id}, slug: {m.slug}, <br></br>
+            foto: {m.foto}
+            {IMAGES_URL + m.foto}
+          </div>
         
-        Marca ID: {m.id}, name: {m.name}, slug: {m.slug}, foto: {m.foto}
-        {IMAGES_URL + m.foto}
-
+        </div>
+        
         <div className="flex items-center justify-between gap-4">
 
           <button type="button"
@@ -157,7 +167,8 @@ export default function marcaPage({loaderData}: any) {
 
           <button type="button" 
             className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-            onClick={() => m.id !== undefined && dispatch(deleteMarcaById(Number(m.id)))}>🗑️ Delete
+            onClick={() => m.id !== undefined && dispatch(deleteMarcaById(Number(m.id)))}>
+            🗑️ Delete
           </button>
 
         </div>
@@ -175,7 +186,7 @@ export default function marcaPage({loaderData}: any) {
             <hr></hr>
             {/* Сделать сначала крад операции потом вебп */}
             <br></br>
-            {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  */}
+
             <div className="container">
               <Form 
                 id='form' 
@@ -245,9 +256,10 @@ export default function marcaPage({loaderData}: any) {
         </header>
 
 {marcasError && <div className="error">Error: {marcasError}</div>}
+
     <div className="flex gap-4 p-4">
 
-      <div className="flex-1 bg-blue-200 p-4">
+      {/* <div className="flex-1 bg-blue-200 p-4">
         <h2 className="text-lg font-bold">Колонка 1</h2>
         <p>Содержимое первой колонки.</p>
               { marcas.length >0 ?( 
@@ -265,7 +277,7 @@ export default function marcaPage({loaderData}: any) {
         </div>
 
       }
-      </div>
+      </div> */}
 
       <div className="flex-1 bg-green-200 p-4">
         <h2 className="text-lg font-bold">Колонка 2</h2>
@@ -289,17 +301,6 @@ export default function marcaPage({loaderData}: any) {
 
     </div>
 
-
-<div className="grid grid-cols-2 gap-4 p-4">
-  <div className="bg-blue-200 p-4">
-    <h2 className="text-lg font-bold">Колонка 1</h2>
-    <p>Содержимое первой колонки.</p>
-  </div>
-  <div className="bg-green-200 p-4">
-    <h2 className="text-lg font-bold">Колонка 2</h2>
-    <p>Содержимое второй колонки.</p>
-  </div>
-</div>
 
 
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import {FALLBACK_IMAGE_URL} from "../../../shared/config"
+import {FALLBACK_IMAGE_URL} from "../config"
 
 const ImageWithFallback = ({ src, alt, fallbackSrc= FALLBACK_IMAGE_URL, ...props }) => {
   const [imageSrc, setImageSrc] = useState(src);

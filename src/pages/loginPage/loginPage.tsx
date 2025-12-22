@@ -1,10 +1,10 @@
 import type { Route } from ".react-router/types/app/+types/root";
 import { useEffect, useRef, useState } from "react";
 import { Form, Link, Navigate, redirect, useActionData, useNavigate } from "react-router";
-import { API_LOGIN_URL } from "shared/config";
+import { API_LOGIN_URL } from "src/shared/config";
 import * as jose from "jose"
 import { useDispatch } from "react-redux";
-import {login, logout} from "../../features/authSlice"
+import {login, logout} from "../../../features/authSlice"
 import { store } from "~/store";
 
 

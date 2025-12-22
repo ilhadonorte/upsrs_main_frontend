@@ -1,6 +1,6 @@
 
 import { Outlet } from 'react-router'
-import {Header} from '../../shared/Header/Header'
+import {Header} from '../../../shared/Header/Header'
 
 export default function agentPage(){
 

@@ -11,7 +11,7 @@ import {MovieInput} from "./MovieInput"
 
 import { increment, decrement, incrementByAmount, reset } from "features/counterSlice";
 import { Link } from "react-router";
-import SubmitButton from "../../shared/submitButton"
+import SubmitButton from "../../../shared/submitButton"
 
 const CounterPage: React.FC = () =>{
     const count = useSelector((state:RootState) => state.counter.value);

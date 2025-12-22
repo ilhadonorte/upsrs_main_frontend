@@ -14,9 +14,6 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/loginPage": {
-    params: {};
-  };
   "/agent": {
     params: {};
   };
@@ -42,55 +39,50 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/loginPage" | "/agent" | "/agent/marca" | "/agent/about" | "/agent/redux" | "/agent/ant" | "/*";
+    page: "/" | "/agent" | "/agent/marca" | "/agent/about" | "/agent/redux" | "/agent/ant" | "/*";
   };
-  "../pages/loginPage/loginPage.tsx": {
-    id: "../pages/loginPage/loginPage";
+  "../src/pages/loginPage/loginPage.tsx": {
+    id: "../src/pages/loginPage/loginPage";
     page: "/";
   };
-  "routes/loginPage.tsx": {
-    id: "routes/loginPage";
-    page: "/loginPage";
-  };
-  "../pages/agentPage/agentPage.tsx": {
-    id: "../pages/agentPage/agentPage";
+  "../src/pages/agentPage/agentPage.tsx": {
+    id: "../src/pages/agentPage/agentPage";
     page: "/agent" | "/agent/marca" | "/agent/about" | "/agent/redux" | "/agent/ant";
   };
-  "../pages/shopsPage/shopsPage.tsx": {
-    id: "../pages/shopsPage/shopsPage";
+  "../src/pages/shopsPage/shopsPage.tsx": {
+    id: "../src/pages/shopsPage/shopsPage";
     page: "/agent";
   };
-  "../pages/marcaPage/marcaPage.tsx": {
-    id: "../pages/marcaPage/marcaPage";
+  "../src/pages/marcaPage/marcaPage.tsx": {
+    id: "../src/pages/marcaPage/marcaPage";
     page: "/agent/marca";
   };
-  "../pages/aboutPage/aboutPage.tsx": {
-    id: "../pages/aboutPage/aboutPage";
+  "../src/pages/aboutPage/aboutPage.tsx": {
+    id: "../src/pages/aboutPage/aboutPage";
     page: "/agent/about";
   };
-  "../pages/counterPage/counterPage.tsx": {
-    id: "../pages/counterPage/counterPage";
+  "../src/pages/counterPage/counterPage.tsx": {
+    id: "../src/pages/counterPage/counterPage";
     page: "/agent/redux";
   };
   "routes/fortesting.tsx": {
     id: "routes/fortesting";
     page: "/agent/ant";
   };
-  "../pages/catchAllPage/catchAllPage.tsx": {
-    id: "../pages/catchAllPage/catchAllPage";
+  "../src/pages/catchAllPage/catchAllPage.tsx": {
+    id: "../src/pages/catchAllPage/catchAllPage";
     page: "/*";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
-  "../pages/loginPage/loginPage": unknown;
-  "routes/loginPage": typeof import("./app/routes/loginPage.tsx");
-  "../pages/agentPage/agentPage": unknown;
-  "../pages/shopsPage/shopsPage": unknown;
-  "../pages/marcaPage/marcaPage": unknown;
-  "../pages/aboutPage/aboutPage": unknown;
-  "../pages/counterPage/counterPage": unknown;
+  "../src/pages/loginPage/loginPage": unknown;
+  "../src/pages/agentPage/agentPage": unknown;
+  "../src/pages/shopsPage/shopsPage": unknown;
+  "../src/pages/marcaPage/marcaPage": unknown;
+  "../src/pages/aboutPage/aboutPage": unknown;
+  "../src/pages/counterPage/counterPage": unknown;
   "routes/fortesting": typeof import("./app/routes/fortesting.tsx");
-  "../pages/catchAllPage/catchAllPage": unknown;
+  "../src/pages/catchAllPage/catchAllPage": unknown;
 };

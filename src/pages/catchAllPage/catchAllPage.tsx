@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import {Header} from '../../shared/Header/Header'
+import {Header} from '../../../shared/Header/Header'
 import { Header2 } from "shared/Header2/Header2";
 export default function catchAllPage(){
     const navItens2 = {label:'asdasd', href:'qwewqe'}
