@@ -12,7 +12,8 @@ import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
 
 import { useGetMarcasQuery, useAddNewMarcaMutation } from "src/redux/service";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+// import { bool } from "sharp";
 
   // обработать ситуацию когда сервер недоступен надо чтобы вернуло сообщение об ошибке 2025-12-05
 
@@ -21,6 +22,8 @@ export default function marcaPage() {
 
   const dispatch = useAppDispatch();
   const {data, isError, isLoading } = useGetMarcasQuery({});
+  const [editMarca, setEditMarca] = useState<boolean>(false);
+  const [editedMarca, setEditedMarca] = useState<Marca>({} as Marca);
   console.log("marcaPage isError from rtk query:", isError);
   console.log("marcaPage data from rtk query:", data);
   const rtkData = useGetMarcasQuery({});
@@ -41,10 +44,15 @@ export default function marcaPage() {
       // console.log("thunk is done in useEffect hook...")
     
   }}, [marcasStatus, dispatch])
-  // const handleEdit = () =>{
+
+
+  const handleEdit = (m: Marca) =>{
     // const allMarcas = useAppSelector(state => state.marcasReducer)
-    // console.log("all marcas from redux: ", allMarcas)
-  // }
+    setEditedMarca(m);
+    setEditMarca(!editMarca);
+    console.log("edit marca clicked, editMarca state is: ", editMarca);
+    console.log("Marca to edit: ", m);
+  }
   
 
   // const content = marcas.map(m => 
@@ -69,8 +77,10 @@ export default function marcaPage() {
           ></ImageWithFallback>
 
           <div className="flex-1 break-words whitespace-normal">
+          {editMarca && m.id === editedMarca.id ? <span className="text-blue-500">Editing...</span> : null}
             <h2>{m.name}</h2>
-            Marca ID: {m.id}, slug: {m.slug}, <br></br>
+            Marca ID: {m.id}, 
+            slug: {m.slug}, <br></br>
             foto: {m.foto}
             {IMAGES_URL + m.foto}
           </div>
@@ -81,9 +91,9 @@ export default function marcaPage() {
 
           <button type="button"
             className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-            // onClick={handleEdit()}
+            onClick={() => handleEdit(m)}
             >
-            📝 Edit 
+            {editMarca && m.id === editedMarca.id ? "  💾 Save " : " 📝 Edit "}
           </button>
 
           <button type="button" 
@@ -121,8 +131,9 @@ export default function marcaPage() {
 
                 <label 
                   htmlFor='name'
-                  className="block text-sm font-medium text-gray-700 mb-1 text-center"
-                >Create new car's marca</label>
+                  className="block text-sm font-medium text-gray-700 mb-1 text-center">
+                  {editMarca ? "Edit marca" : "Create new car's marca"}
+                </label>
 
                 <input 
                   name='name' 
