@@ -75,7 +75,7 @@ export default function About() {
             <li>Вынужденно живу в Paraná <b>{f_m}</b> дней или {(f_m/365).toFixed(2)} лет</li>
             <li>Война началась <b>{w_s}</b> дней назад или {(w_s/365).toFixed(2)} лет назад</li>
             <li>Проект придуман <b>{p_i}</b> дней назад, но кажется была мысль и раньше {(p_i/365).toFixed(2)} лет назад</li>
-            <li>уволили: <b>{dem}</b> ({(dem/365).toFixed(2)} лет назад)</li>
+            <li>Уволили из MasterVia telecom: <b>{dem}</b> ({(dem/365).toFixed(2)} лет назад)</li>
             <li>В Jaguafrango мучаюсь уже <b>{j_t}</b> дней или {(j_t/365).toFixed(2)} лет</li>
             <li>Перебрался в Jaguapitã <b>{j_m}</b> дней назад или {(j_m/365).toFixed(2)} лет</li>
             <li>Машину купил: <b>{c_c}</b> дней назад или {(c_c/365).toFixed(2)} лет назад</li>
