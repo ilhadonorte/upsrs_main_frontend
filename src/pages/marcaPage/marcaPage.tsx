@@ -12,7 +12,7 @@ import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
 
 import { useGetMarcasQuery, useAddNewMarcaMutation } from "src/redux/service";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 // import { bool } from "sharp";
 
   // обработать ситуацию когда сервер недоступен надо чтобы вернуло сообщение об ошибке 2025-12-05
@@ -61,7 +61,9 @@ export default function marcaPage() {
   // //         {marca.foto}
   // //       </div>
   //     )
-
+  let editMarcaForm: JSX.Element = <>
+  
+  </>;
 
   let contentFromRedux = allMarcas.map((m: Marca) => (
     // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20 +2025-12-05
@@ -94,13 +96,25 @@ export default function marcaPage() {
             onClick={() => handleEdit(m)}
             >
             {editMarca && m.id === editedMarca.id ? "  💾 Save " : " 📝 Edit "}
-          </button>
-
-          <button type="button" 
+          </button>          
+          
+          {editMarca && m.id === editedMarca.id ? (
+            <button type="button"
+            className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            onClick={() => setEditMarca(false)}
+            >
+              ✖️ Cancel 
+          </button>) : (
+            <button type="button" 
             className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
             onClick={() => m.id !== undefined && dispatch(deleteMarcaById(Number(m.id)))}>
             🗑️ Delete
           </button>
+          )
+          
+          }
+
+          
 
         </div>
       </li>
@@ -204,7 +218,7 @@ export default function marcaPage() {
             border:"1px solid black",
             padding:"10px"
             }}>
-            Marcas list not found or connection error
+            Marcas list is loading or not found or connection error
           </div>
         }
 
