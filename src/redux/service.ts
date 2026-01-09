@@ -45,5 +45,5 @@ const marcasApi = createApi({
     }),
 });
 
-export const { useGetMarcasQuery, useAddNewMarcaMutation } = marcasApi;
+export const { useGetMarcasQuery, useAddNewMarcaMutation, useUpdateMarcaMutation, useDeleteMarcaMutation } = marcasApi;
 export default marcasApi;
