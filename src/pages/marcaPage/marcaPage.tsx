@@ -6,6 +6,8 @@ import { Form, Link, useActionData } from "react-router";
 import { setallmarcas, selectAllMarcas, getMarcasStatus, getMarcasError, fetchAllMarcas, deleteMarcaById } from "src/redux/marcaSlice";
 import { useAppSelector, useAppDispatch } from "src/redux/hooks"
 
+import slugify from 'slugify';
+// const slugifyFunc = slugify.default || slugify; 
 
 import { API_MARCA_URL, IMAGES_URL } from "src/shared/config";
 import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
@@ -18,6 +20,36 @@ import { useEffect, useState, type JSX } from "react";
 
   // обработать ситуацию когда сервер недоступен надо чтобы вернуло сообщение об ошибке 2025-12-05
 
+
+export async function action({ request}: Route.ClientActionArgs) {
+  let formData = await request.formData();
+  const fotoFile = formData.get("foto") as File;
+  if (fotoFile) {
+    const newFileName = slugify(formData.get("name") as string, {lower: true, remove: /[*+~.()'"!:@]/g} );
+    const newFile = new File([fotoFile], newFileName, { type: fotoFile.type });
+    formData.set("foto", newFile);
+  }
+  // let title = formData.get("title");
+  console.log(formData)
+  // disp
+  // let originalFoto = formData.get("foto") as File;
+  // console.log("rrv7 action originalFoto:", originalFoto.name, originalFoto.size, originalFoto.type);
+  // let webpFile = await compressAccurately(originalFoto, {
+  //   size: 100 * 1024,
+  //   type: "image/webp",
+  //   quality: 0.8,
+  // });
+  // console.log("rrv7 action webpFile:", webpFile.size, webpFile.type);
+  // formData.set("foto", webpFile, originalFoto.name.split(".")[0] + ".webp");
+
+  // let result = await fetch(API_MARCA_URL, {
+  //       method: 'POST',
+  //       body: formData,
+  //   })
+  // console.log("rrv7 action result:", result.json);  
+  return {} 
+  // project;
+}  
 
 export default function marcaPage() {
 
@@ -161,7 +193,9 @@ export default function marcaPage() {
 
           <div className="flex items-center justify-between gap-4">
 
-            <button type="button"
+            <button 
+              type="submit"
+              // type="button"
               className="bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               onClick={() => handleEdit(m)}
               >
