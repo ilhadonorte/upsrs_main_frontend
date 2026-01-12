@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { HOST_API, API_MARCA_URL } from "src/shared/config";  
-import type Marca from "src/shared/types/IMarca";
+import * as marcaTypes from "src/shared/types/IMarca";
 
 const marcasApi = createApi({
     reducerPath: "marcasApi",
@@ -13,7 +13,7 @@ const marcasApi = createApi({
             
         }),
 
-        addNewMarca: builder.mutation({
+        createNewMarca: builder.mutation<marcaTypes.Marca, FormData>({
             query: (newMarca) => ({
                 url: "/marca",
                 method: "POST",
@@ -24,7 +24,7 @@ const marcasApi = createApi({
             }),
         }),
 
-        updateMarca: builder.mutation<Marca, { id: string; updatedMarca: FormData }>({
+        updateMarca: builder.mutation<marcaTypes.Marca, { id: string; updatedMarca: FormData }>({
             query: ({ id, updatedMarca }) => ({
                 url: `/marca/${id}`,
                 method: "PUT",
@@ -45,5 +45,5 @@ const marcasApi = createApi({
     }),
 });
 
-export const { useGetMarcasQuery, useAddNewMarcaMutation, useUpdateMarcaMutation, useDeleteMarcaMutation } = marcasApi;
+export const { useGetMarcasQuery, useCreateNewMarcaMutation, useUpdateMarcaMutation, useDeleteMarcaMutation } = marcasApi;
 export default marcasApi;

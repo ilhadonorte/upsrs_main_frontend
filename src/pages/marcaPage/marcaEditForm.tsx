@@ -1,10 +1,13 @@
 import React, { useState, type JSX } from "react";
 import type { Route } from ".react-router/types/app/+types/root";
+import * as marcaTypes from "src/shared/types/IMarca";
 import { Form } from "react-router";
+
+import slugify from 'slugify';
 
 import type { MarcaCreateDto } from "src/shared/types/IMarca";
 import { useAppDispatch } from "src/redux/hooks"
-import { useAddNewMarcaMutation, useUpdateMarcaMutation } from "src/redux/service";
+import { useCreateNewMarcaMutation, useUpdateMarcaMutation } from "src/redux/service";
 
 interface MarcaEditFormProps {
   isEditMode?: boolean;
@@ -13,7 +16,8 @@ interface MarcaEditFormProps {
 function MarcaEditForm({ isEditMode = false }: MarcaEditFormProps): JSX.Element 
 {
     // const dispatch = useAppDispatch();
-  const [error, setError] = useState('');  
+  const [error, setError] = useState('');
+  const [createNewMarca] = useCreateNewMarcaMutation();
   console.log("MarcaEditForm isEditMode:", isEditMode);
 
 
@@ -40,9 +44,25 @@ function MarcaEditForm({ isEditMode = false }: MarcaEditFormProps): JSX.Element
   };
   
 
-    // function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
-    //     throw new Error("Function not implemented.");
-    // }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    // Handle form submission logic here
+    // console.log("Form submitted: ", event.currentTarget);
+    
+    const formData = new FormData(event.currentTarget);
+      // console.log(formData)
+      console.log(formData.get("name"))
+      console.log(formData.get("foto"))
+      // const fotoFile = formData.get("foto") as File;
+      // if (fotoFile) {
+      //   const newFileName = slugify(formData.get("name") as string, {lower: true, remove: /[*+~.()'"!:@]/g} );
+      //   const newFile = new File([fotoFile], newFileName, { type: fotoFile.type });
+      //   formData.set("foto", newFile);
+      // } 2026-01-11 доделать создание имени файла похожим на марку
+      // let title = formData.get("title");
+      // console.log(formData.get("foto"))
+      createNewMarca(formData);
+  };
 
 return (
     <div className="container">
@@ -51,6 +71,7 @@ return (
             className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
             encType="multipart/form-data" 
             aria-label="Форма загрузки"
+            onSubmit={handleSubmit}
             // action = "/api/v1/marca"
             method="post"
             // onSubmit={()=>event.preventDefault()}
@@ -97,6 +118,7 @@ return (
             <button
                 type="submit"
                 className="flex-1 inline-flex justify-center items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                
             >
                 {isEditMode ? "  💾 Save  " : "Создать"}
             </button>

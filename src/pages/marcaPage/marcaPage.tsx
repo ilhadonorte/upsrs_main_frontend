@@ -1,5 +1,5 @@
 import type { Route } from ".react-router/types/app/+types/root";
-import type Marca from "../../shared/types/IMarca"
+import type {Marca} from "../../shared/types/IMarca"
 // import { title } from "process";
 import { Form, Link, useActionData } from "react-router";
 
@@ -13,7 +13,7 @@ import { API_MARCA_URL, IMAGES_URL } from "src/shared/config";
 import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
 import MarcaEditForm from "./marcaEditForm";
 
-import { useGetMarcasQuery, useAddNewMarcaMutation, useUpdateMarcaMutation } from "src/redux/service";
+import { useGetMarcasQuery, useUpdateMarcaMutation } from "src/redux/service";
 
 import { useEffect, useState, type JSX } from "react";
 // import { bool } from "sharp";
