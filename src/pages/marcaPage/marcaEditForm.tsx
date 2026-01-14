@@ -9,16 +9,21 @@ import type { MarcaCreateDto } from "src/shared/types/IMarca";
 import { useAppDispatch } from "src/redux/hooks"
 import { useCreateNewMarcaMutation, useUpdateMarcaMutation } from "src/redux/service";
 
+import  ImageWithFallback  from "../../shared/components/ImageWithFallback";
+import createIcon from "../../shared/images/create_icon.png";
+
 interface MarcaEditFormProps {
   isEditMode?: boolean;
+  editedMarca?: marcaTypes.Marca;
 }
 
-function MarcaEditForm({ isEditMode = false }: MarcaEditFormProps): JSX.Element 
+function MarcaEditForm({ isEditMode = false, editedMarca }: MarcaEditFormProps): JSX.Element 
 {
     // const dispatch = useAppDispatch();
   const [error, setError] = useState('');
   const [createNewMarca] = useCreateNewMarcaMutation();
   console.log("MarcaEditForm isEditMode:", isEditMode);
+  console.log("Marca to Edit:", editedMarca);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -58,17 +63,24 @@ function MarcaEditForm({ isEditMode = false }: MarcaEditFormProps): JSX.Element
       //   const newFileName = slugify(formData.get("name") as string, {lower: true, remove: /[*+~.()'"!:@]/g} );
       //   const newFile = new File([fotoFile], newFileName, { type: fotoFile.type });
       //   formData.set("foto", newFile);
-      // } 2026-01-11 доделать создание имени файла похожим на марку
+      // } 2026-01-11 доделать создание имени файла похожим на марку slugify вынести в утилиту получше
       // let title = formData.get("title");
       // console.log(formData.get("foto"))
       createNewMarca(formData);
   };
 
 return (
-    <div className="container">
+    <div className=" flex container border border-gray-300 rounded-lg p-1 items-center justify-center mx-auto my-2 bg-gray-50">
+      <ImageWithFallback
+        src ={createIcon}
+        height={"130px"}
+        width={"130px"}
+      ></ImageWithFallback>
+
+      <div className="text-center my-4">
         <Form 
             id='form' 
-            className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
+            className="border border-gray-300 shadow-md rounded-lg p-1 w-full max-w-md"
             encType="multipart/form-data" 
             aria-label="Форма загрузки"
             onSubmit={handleSubmit}
@@ -88,6 +100,7 @@ return (
             name='name' 
             id='name' 
             placeholder="Enter new marca name here"
+            value={isEditMode && editedMarca?.name ? editedMarca.name : ''}
             className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         />
 
@@ -102,6 +115,7 @@ return (
             name="foto"
             type="file" 
             accept="image/*"
+            // value={isEditMode && editedMarca ? editedMarca.foto : "" }
             // multiple
             onChange={handleFileChange}
             className="block w-full text-sm text-gray-500
@@ -128,7 +142,7 @@ return (
                 className="flex-1 inline-flex justify-center items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 onClick={()=>(document.getElementById('foto') as HTMLInputElement).value = ''}
                 title="Очистить файл">
-                🧹  Очистить файл
+                🧹  Очистить
             </button>
 
             {isEditMode ? (
@@ -144,7 +158,12 @@ return (
         </div>
 
         </Form>
-        </div>        
+        
+        {isEditMode ? ("id: " +editedMarca?.id) : null} <br />
+        {isEditMode ? ("slug: " + editedMarca?.slug) : null} <br />
+
+      </div>
+    </div>        
     
     );
 }

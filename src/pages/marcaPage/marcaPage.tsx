@@ -93,6 +93,7 @@ export default function marcaPage() {
       console.log("Saving changes for marca id: ", m.id);
       console.log("old marca data: ", m);
       console.log("new marca data: ", editedMarca);
+      setEditedMarca({} as Marca);
       // dispatch(setallmarcas([...allMarcas.filter(marca => marca.id !== editedMarca.id), editedMarca]));
       // dispatch()
     }
@@ -121,7 +122,7 @@ export default function marcaPage() {
 
   let contentFromRedux = allMarcas.map((m: Marca) => (
     // вывести сообщение ошибки загрузки если ничего не вернулось 2025-11-20 +2025-12-05
-      <li key={m.id} className="w-[600px] max-w-[100vw] p-2 border-t">
+      <li key={m.id} className="w-[600px] max-w-[100vw] p-1 border-t">
         <div className="flex">
           
           {/* <img src={IMAGES_URL + m.foto} height={"50px"} width={"50px"} alt="image loading error"></img>  */}
@@ -132,54 +133,57 @@ export default function marcaPage() {
             width={"130px"}
           ></ImageWithFallback>
 
-          <div className="flex-1 break-words whitespace-normal p-2">
+          <div className="flex-1 break-words whitespace-normal p-1">
           {/* {editMarca && m.id === editedMarca.id ?  : null} */}
           {editMarca && m.id === editedMarca.id ? 
-            (<div>
-              <span className="text-blue-500">Editing marca form</span> 
-              <Form>
-                <input 
-                  name='name' 
-                  id='name' 
-                  // placeholder="Enter new marca here"
-                  value={editedMarca.name}
-                  onChange={handleMarcaNameChange}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                />
+          (
+            <MarcaEditForm isEditMode={true} editedMarca={editedMarca}></MarcaEditForm>
+          )
+            // (<div>
+            //   <span className="text-blue-500">Editing marca form</span> 
+            //   <Form>
+            //     <input 
+            //       name='name' 
+            //       id='name' 
+            //       // placeholder="Enter new marca here"
+            //       value={editedMarca.name}
+            //       onChange={handleMarcaNameChange}
+            //       className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            //     />
 
-                <input 
-                  id='foto' 
-                  name="foto"
-                  type="file" 
-                  // value={editedMarca.foto.toString}
-                  // onChange={(event)=>{
-                  //   console.log("Selecting new foto for: ", editedMarca);
-                  //   const reader = new FileReader();
-                  //   console.log("reader on create: ", reader);
-                  //   reader.onload = () => {
-                  //     console.log("reader.onload: ", reader.result);
-                  //     setNewImage(reader.result as string);
-                  //   };
-                  //   if (event.target.files?.[0]) {
-                  //     reader.readAsDataURL(event.target.files[0]);
-                  //     console.log("readAsDataURL called");
-                  //   }
-                  // }} // 2026-01-05 разобраться с превью нового изображения позже
+            //     <input 
+            //       id='foto' 
+            //       name="foto"
+            //       type="file" 
+            //       // value={editedMarca.foto.toString}
+            //       // onChange={(event)=>{
+            //       //   console.log("Selecting new foto for: ", editedMarca);
+            //       //   const reader = new FileReader();
+            //       //   console.log("reader on create: ", reader);
+            //       //   reader.onload = () => {
+            //       //     console.log("reader.onload: ", reader.result);
+            //       //     setNewImage(reader.result as string);
+            //       //   };
+            //       //   if (event.target.files?.[0]) {
+            //       //     reader.readAsDataURL(event.target.files[0]);
+            //       //     console.log("readAsDataURL called");
+            //       //   }
+            //       // }} // 2026-01-05 разобраться с превью нового изображения позже
 
-                  multiple
-                  className="block w-full text-sm text-gray-500
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-md file:border-0
-                            file:bg-indigo-50 file:text-indigo-700
-                            hover:file:bg-indigo-100
-                            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                ></input>
-                id: {m.id},<br></br> 
-                slug: {m.slug}, <br></br>
-              </Form>
-              {/* <img src={editedMarca.foto} alt="new marca foto" /> */}
-            </div>
-            )
+            //       multiple
+            //       className="block w-full text-sm text-gray-500
+            //                 file:mr-4 file:py-2 file:px-4
+            //                 file:rounded-md file:border-0
+            //                 file:bg-indigo-50 file:text-indigo-700
+            //                 hover:file:bg-indigo-100
+            //                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            //     ></input>
+            //     id: {m.id},<br></br> 
+            //     slug: {m.slug}, <br></br>
+            //   </Form>
+            //   {/* <img src={editedMarca.foto} alt="new marca foto" /> */}
+            // </div>
+            // )
             :
             ( <div>
                 <h2>name: {m.name}</h2>
@@ -232,13 +236,16 @@ export default function marcaPage() {
 
   return (
     
-    <main className=" items-center justify-center pt-8 pb-2">
-      <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
-          <div className="w-[500px] max-w-[100vw] p-4">
+    <main className=" items-center justify-center pt-8 pb-1">
+      <div className="flex-1 flex flex-col items-center gap-8 min-h-0">
+          <div className="w-[500px] max-w-[100vw] p-1">
             <h1><Link to="/agent">◀ Back</Link> ׀ Сar marcas page ({data?.length} found)</h1>
             <br></br>
             <hr></hr>
             {/* Сделать сначала крад операции потом вебп */}
+            slug не создаётся автоматически при редактировании марки, надо исправить 2025-12-05
+            <br></br>
+            Фото не меняется при редактировании марки, надо исправить 2025-12-05
             <br></br>
 
                
@@ -249,7 +256,7 @@ export default function marcaPage() {
           {isLoading && <div className="error">Loading... </div>}
 
 
-      <div className="flex-1 bg-green-900 p-2">
+      <div className="flex-1 bg-green-900 p-1">
         <h2 className="text-lg font-bold">Содержимое второй колонки.</h2>
           
           { allMarcas.length >0 ?( 

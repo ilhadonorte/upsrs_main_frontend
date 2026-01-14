@@ -12,7 +12,9 @@ const ImageWithFallback = ({ src, alt, fallbackSrc= FALLBACK_IMAGE_URL, ...props
     console.warn(`ImageWithFallback component error: image failed to load: ${src}. \nWill used instead ${fallbackSrc}`);
   };
 
-  return <img src={imageSrc} alt={alt} onError={handleError} {...props} />;
+  return <img src={imageSrc} alt={alt} onError={handleError} {...props} 
+    className='rounded'
+  />;
 };
 
 export default ImageWithFallback;

@@ -6,10 +6,12 @@ import * as marcaTypes from "src/shared/types/IMarca";
 const marcasApi = createApi({
     reducerPath: "marcasApi",
     baseQuery: fetchBaseQuery({ baseUrl: HOST_API }),
+    tagTypes: ["Marcas"],
     endpoints: (builder) => ({
 
         getMarcas: builder.query({
             query: () => "/marca",
+            providesTags: ["Marcas"],
             
         }),
 
@@ -22,6 +24,7 @@ const marcasApi = createApi({
                 },
                 body: newMarca,
             }),
+            invalidatesTags: ["Marcas"],
         }),
 
         updateMarca: builder.mutation<marcaTypes.Marca, { id: string; updatedMarca: FormData }>({
@@ -33,6 +36,7 @@ const marcasApi = createApi({
                 },
                 body: updatedMarca,
             }),
+            invalidatesTags: ["Marcas"],
         }),
 
         deleteMarca: builder.mutation({
@@ -40,6 +44,7 @@ const marcasApi = createApi({
                 url: `/marca/${id}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Marcas"],
         }), 
 
     }),
